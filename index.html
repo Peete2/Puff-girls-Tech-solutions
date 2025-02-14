@@ -382,14 +382,36 @@
     transform: translateY(-20px) rotate(35deg);
   }
 }
+    .image-cycle-animation {
+  animation: imageCycle 0.5s ease-in-out;
+}
+
+@keyframes imageCycle {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(0.8) rotate(-15deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+#cycling-image {
+  transition: 
+    transform 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+#cycling-image:hover {
+  transform: scale(1.05) rotate(-5deg);
+  filter: brightness(1.1);
+  }
+                         
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Please Be My Valentine?</h1>
-    <div class="image-container">
-      <img src="images.png" alt="Valentine Image" />
-    </div>
+    
+<div class="image-container">
+  <img src="images.png" alt="Cycling Images" id="cycling-image">
+</div>
     <div class="buttons">
       <button id="yes-btn">Yes</button>
       <button id="no-btn">No</button>
@@ -412,6 +434,13 @@
     const starsContainer = document.getElementById('stars');
     let noClickCount = 0;
     let heartInterval;
+    let currentImageIndex = 0;
+    const imagePaths = [
+  'love.jpg',
+  'ima.jpeg',
+  'hugs.jpg',
+  'kisses.jpg'
+];
 
      yesBtn.addEventListener('click', () => {
       // Create butterfly swarm
@@ -469,6 +498,23 @@
 
     // "Yes" button click handler
     yesBtn.addEventListener('click', () => {
+      
+  // Image cycling logic
+  const cyclingImage = document.getElementById('cycling-image');
+  currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
+  
+  // Add animation class
+  cyclingImage.classList.add('image-cycle-animation');
+  
+  // Change image after animation starts
+  setTimeout(() => {
+    cyclingImage.src = imagePaths[currentImageIndex];
+  }, 200);
+  
+  // Remove animation class after animation completes
+  setTimeout(() => {
+    cyclingImage.classList.remove('image-cycle-animation');
+  }, 500);
       // Display initial message
       message.textContent = "Nnawwww! you're the best 💖";
       message.style.display = 'block';
